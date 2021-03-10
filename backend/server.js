@@ -23,6 +23,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/user", require("./routes/user"));
+app.use("/chat", require("./routes/chat"));
 
 app.listen(PORT, () => {
   console.log(`connected on port ${PORT}`);

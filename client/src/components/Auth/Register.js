@@ -49,12 +49,12 @@ const Register = () => {
   };
 
   return (
-    <div className="center">
+    <div className="loginLogoutBody">
       <div className="loginCard">
         <h1>Register</h1>
 
         <form onSubmit={(e) => handleSubmit(e)}>
-          <label for="firstName">First Name</label>
+          <label htmlFor="firstName">First Name</label>
           <input
             type="text"
             id="firstName"
@@ -63,7 +63,7 @@ const Register = () => {
             value={firstName}
             onChange={(e) => handleChange(e)}
           />
-          <label for="lastName">Last Name</label>
+          <label htmlFor="lastName">Last Name</label>
           <input
             type="text"
             id="lastName"
@@ -72,7 +72,7 @@ const Register = () => {
             value={lastName}
             onChange={(e) => handleChange(e)}
           />
-          <label for="email">Email</label>
+          <label htmlFor="email">Email</label>
           <input
             type="text"
             id="email"
@@ -82,7 +82,7 @@ const Register = () => {
             onChange={(e) => handleChange(e)}
           />
 
-          <label for="password">Password</label>
+          <label htmlFor="password">Password</label>
           <input
             type="password"
             id="password"
@@ -91,7 +91,7 @@ const Register = () => {
             value={password}
             onChange={(e) => handleChange(e)}
           />
-          <label for="verifyPassword">Verify Password</label>
+          <label htmlFor="verifyPassword">Verify Password</label>
           <input
             type="password"
             id="verifyPassword"

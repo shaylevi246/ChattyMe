@@ -1,10 +1,17 @@
 import React from "react";
+import Sidebar from "./Sidebar/Sidebar";
+import ChatBody from "./ChatBody/ChatBody";
+import "./Chat.css";
+import { Fragment } from "react";
 
 const Chat = () => {
   return (
-    <div>
-      <h1>Chat page</h1>
-    </div>
+    <Fragment>
+      <div className="chat">
+        <Sidebar />
+        <ChatBody />
+      </div>
+    </Fragment>
   );
 };
 

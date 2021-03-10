@@ -3,10 +3,12 @@ import { Link, Redirect, useHistory } from "react-router-dom";
 import "./auth.css";
 import { useDispatch, useSelector } from "react-redux";
 import { login, loginSelector } from "./loginSlicer";
+import { Fragment } from "react";
 
 const Login = () => {
   const dispatch = useDispatch();
-  const { isAuth } = useSelector(loginSelector);
+  const { isAuth, isLoading, user } = useSelector(loginSelector);
+
   const history = useHistory();
   const [formData, setFormData] = useState({
     email: "",
@@ -27,44 +29,51 @@ const Login = () => {
     e.preventDefault();
     dispatch(login({ email, password }));
   };
-  useEffect(() => {
-    if (isAuth) {
-      history.push("/");
-    }
-  }, [isAuth, history]);
+  // useEffect(() => {
+  //   if (isAuth) {
+  //     history.push("/");
+  //   }
+  // }, [isAuth, history]);
+  if (isAuth) {
+    // let currentUser = JSON.parse(user);
+    // console.log(currentUser.firstName);
+    return <Redirect to="/" />;
+  }
   return (
-    <div className="center">
-      <div className="loginCard">
-        <h1>Sign In</h1>
+    <Fragment>
+      <div className="loginLogoutBody">
+        <div className="loginCard">
+          <h1>Sign In</h1>
 
-        <form onSubmit={(e) => handleSubmit(e)}>
-          <label for="email">Email</label>
-          <input
-            onChange={(e) => handleChange(e)}
-            type="text"
-            id="email"
-            name="email"
-            value={email}
-            placeholder="Your email.."
-          />
+          <form onSubmit={(e) => handleSubmit(e)}>
+            <label htmlFor="email">Email</label>
+            <input
+              onChange={(e) => handleChange(e)}
+              type="text"
+              id="email"
+              name="email"
+              value={email}
+              placeholder="Your email.."
+            />
 
-          <label for="password">Password</label>
-          <input
-            onChange={(e) => handleChange(e)}
-            type="password"
-            id="password"
-            name="password"
-            value={password}
-            placeholder="Your password.."
-          />
+            <label htmlFor="password">Password</label>
+            <input
+              onChange={(e) => handleChange(e)}
+              type="password"
+              id="password"
+              name="password"
+              value={password}
+              placeholder="Your password.."
+            />
 
-          <input type="submit" value="Submit" />
-        </form>
-        <p>
-          Don't have an account? <Link to="/register">Register</Link>{" "}
-        </p>
+            <input type="submit" value="Submit" />
+          </form>
+          <p>
+            Don't have an account? <Link to="/register">Register</Link>{" "}
+          </p>
+        </div>
       </div>
-    </div>
+    </Fragment>
   );
 };
 

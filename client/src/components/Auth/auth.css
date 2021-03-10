@@ -1,10 +1,13 @@
 body {
   margin: 0;
   padding: 0;
+}
+.loginLogoutBody {
   position: relative;
   background: url("../../assets/images/loginBackground.jpg") no-repeat center
     center/cover;
-
+  display: grid;
+  place-items: center;
   height: 100vh;
 }
 label {

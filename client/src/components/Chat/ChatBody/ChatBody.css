@@ -1,0 +1,78 @@
+.chatBody {
+  flex: 0.65;
+  display: flex;
+  flex-direction: column;
+}
+.chatBodyHeader {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid rgb(157, 168, 231);
+  background-color: lightgreen;
+}
+.chatBodyHeaderInfo {
+  flex: 1;
+  margin-left: 20px;
+}
+.chatBodyHeaderInfo > h3 {
+  margin: 3px;
+}
+.chatBodyHeaderInfo > p {
+  margin: 3px;
+  color: gray;
+}
+.chatBodyHeaderRight {
+  display: flex;
+  justify-content: space-between;
+  min-width: 100px;
+}
+.chatBodyMiddle {
+  flex: 1;
+  background-color: lightgrey;
+  overflow: auto;
+  padding: 30px;
+}
+.chatMessage {
+  position: relative;
+  background-color: white;
+  border-radius: 10px;
+  font-size: 16px;
+  padding: 10px;
+  width: fit-content;
+  margin-bottom: 30px;
+}
+.chatMessageName {
+  position: absolute;
+  top: -25px;
+  font-weight: 600;
+}
+.sender {
+  background-color: lightgreen;
+  margin-left: auto;
+}
+.chatBodyMiddleTimeStamp {
+  margin-left: 10px;
+  font-size: 10px;
+  color: gray;
+}
+.chatBodyFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: lightgreen;
+}
+/* .chatBodyFooterInsert {
+  flex: 1;
+} */
+.chatBodyFooter > form {
+  flex: 1;
+}
+.chatBodyFooter > form > input {
+  flex: 1;
+  border-radius: 20px;
+  outline: none;
+}
+.chatBodyFooter > form > button {
+  display: none;
+}
