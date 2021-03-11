@@ -1,8 +1,7 @@
-import React from "react";
+import React, { Fragment } from "react";
 import Sidebar from "./Sidebar/Sidebar";
 import ChatBody from "./ChatBody/ChatBody";
 import "./Chat.css";
-import { Fragment } from "react";
 
 const Chat = () => {
   return (

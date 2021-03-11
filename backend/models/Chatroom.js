@@ -24,6 +24,12 @@ const chatroomSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "user",
       },
+      firstName: {
+        type: String,
+      },
+      lastName: {
+        type: String,
+      },
       text: {
         type: String,
       },

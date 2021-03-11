@@ -61,4 +61,29 @@ router.get("/:id", authenticateJWT, async (req, res) => {
   }
 });
 
+//route /chat/message/:id
+// post create new message
+//private
+
+router.post("/message/:id", authenticateJWT, async (req, res) => {
+  try {
+    //we have the user from authenticateJWT
+    const user = await User.findById(req.user.id).select("-password");
+    const chatroom = await Chatroom.findOne({ _id: req.params.id });
+    const newMessage = {
+      text: req.body.text,
+      user: req.user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+    };
+
+    chatroom.messages.push(newMessage);
+    await chatroom.save();
+    res.json(chatroom);
+  } catch (err) {
+    console.error(err.msg);
+    res.status(500).send("Server Error");
+  }
+});
+
 module.exports = router;

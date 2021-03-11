@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Avatar, IconButton } from "@material-ui/core";
 import DonutLargeIcon from "@material-ui/icons/DonutLarge";
 import ChatIcon from "@material-ui/icons/Chat";
@@ -18,8 +18,6 @@ function Sidebar() {
       dispatch(loadUser());
     }
   }, [loadUser]);
-
-  //const [rooms, setRooms] = useState([]);
   const { chatrooms } = useSelector(chatRoomsSelector);
   useEffect(() => {
     dispatch(getChatrooms());

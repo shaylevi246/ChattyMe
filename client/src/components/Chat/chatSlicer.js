@@ -15,6 +15,8 @@ const chatroomSlice = createSlice({
   reducers: {
     getRooms: (state, action) => {
       state.chatrooms = action.payload;
+      state.chatroom =
+        state.chatroom === null ? state.chatrooms[0] : state.chatroom;
       state.loading = false;
     },
     createChatroom: (state, action) => {
@@ -63,6 +65,20 @@ export const addChatroom = ({ roomName }) => async (dispatch) => {
 export const findChatroomById = (id) => async (dispatch) => {
   try {
     const res = await api.get(`/chat/${id}`);
+    dispatch(loadChatroom(res.data));
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach((error) => toast.error(error.msg));
+    }
+  }
+};
+
+export const addMessage = ({ chatroom, text }) => async (dispatch) => {
+  const body = JSON.stringify({ text });
+  try {
+    console.log(text);
+    const res = await api.post(`/chat/message/${chatroom._id}`, body);
     dispatch(loadChatroom(res.data));
   } catch (err) {
     const errors = err.response.data.errors;
