@@ -5,6 +5,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const authenticateJWT = require("../middleware/authenticateJWT");
+const upload = require("../middleware/upload");
 
 //Description get user
 //Route user/auth
@@ -13,6 +14,21 @@ router.get("/auth", authenticateJWT, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
     res.json(user);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+//Description get all users
+//Route user/users
+
+router.get("/users", authenticateJWT, async (req, res) => {
+  try {
+    const users = await User.find({})
+      .select("-password")
+      .sort({ firstName: 1 });
+    res.json(users);
   } catch (error) {
     console.error(error.message);
     res.status(500).send("Server Error");
@@ -49,7 +65,7 @@ router.post(
           .json({ errors: [{ msg: "User already exists" }] });
       }
 
-      user = new User({ firstName, lastName, email, password });
+      user = new User({ firstName, lastName, email, password, avatar: null });
 
       //Encrypt password
       var salt = await bcrypt.genSaltSync(10);
@@ -130,6 +146,29 @@ router.post(
       );
     } catch (err) {
       return res.status(500).send("Server Error");
+    }
+  }
+);
+
+//Description add avatar to user
+//Route user/avatar
+
+router.post(
+  "/avatar",
+  authenticateJWT,
+  upload.single("avatar"),
+  async (req, res) => {
+    try {
+      const user = await User.findById(req.user.id).select("-password");
+      // const avatar = req.file.filename;
+      const { path: avatar } = req.file;
+      console.log(req.file);
+      user.avatar = avatar.replace(/\\/g, "/");
+      await user.save();
+      res.json(user);
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send("Server Error");
     }
   }
 );

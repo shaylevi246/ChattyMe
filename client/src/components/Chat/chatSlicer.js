@@ -4,9 +4,11 @@ import { ToastContainer, toast, Zoom, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 toast.configure();
 const initialState = {
+  allUsers: [],
   chatrooms: [],
   chatroom: null,
   loading: true,
+  change: localStorage.getItem("change"),
 };
 
 const chatroomSlice = createSlice({
@@ -18,6 +20,7 @@ const chatroomSlice = createSlice({
       state.chatroom =
         state.chatroom === null ? state.chatrooms[0] : state.chatroom;
       state.loading = false;
+      state.change = localStorage.setItem("change", false);
     },
     createChatroom: (state, action) => {
       state.chatrooms.push(action.payload);
@@ -27,13 +30,22 @@ const chatroomSlice = createSlice({
       state.chatroom = action.payload;
       state.loading = false;
     },
+    findAllUsers: (state, action) => {
+      state.allUsers = action.payload;
+      state.loading = false;
+    },
   },
 });
 export default chatroomSlice.reducer;
 export const chatRoomsSelector = (state) => state.chatroom;
 
 //Actions
-const { getRooms, createChatroom, loadChatroom } = chatroomSlice.actions;
+const {
+  getRooms,
+  createChatroom,
+  loadChatroom,
+  findAllUsers,
+} = chatroomSlice.actions;
 
 export const getChatrooms = () => async (dispatch) => {
   try {
@@ -47,12 +59,12 @@ export const getChatrooms = () => async (dispatch) => {
   }
 };
 
-export const addChatroom = ({ roomName }) => async (dispatch) => {
-  const body = JSON.stringify({ roomName });
-  //   console.log(body);
+export const addChatroom = ({ roomName, checked }) => async (dispatch) => {
+  const body = JSON.stringify({ roomName, checked });
   try {
     const res = await api.post("/chat/chatroom", body);
     dispatch(createChatroom(res.data));
+    localStorage.setItem("change", true);
   } catch (err) {
     console.log(err.msg);
     const errors = err.response.data.errors;
@@ -77,9 +89,21 @@ export const findChatroomById = (id) => async (dispatch) => {
 export const addMessage = ({ chatroom, text }) => async (dispatch) => {
   const body = JSON.stringify({ text });
   try {
-    console.log(text);
     const res = await api.post(`/chat/message/${chatroom._id}`, body);
     dispatch(loadChatroom(res.data));
+    localStorage.setItem("change", true);
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach((error) => toast.error(error.msg));
+    }
+  }
+};
+
+export const getAllUsers = () => async (dispatch) => {
+  try {
+    const res = await api.get("/user/users");
+    dispatch(findAllUsers(res.data));
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {

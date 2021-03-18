@@ -60,7 +60,7 @@ const Register = () => {
             id="firstName"
             name="firstName"
             placeholder="Your first name.."
-            value={firstName}
+            value={firstName.charAt(0).toUpperCase() + firstName.slice(1)}
             onChange={(e) => handleChange(e)}
           />
           <label htmlFor="lastName">Last Name</label>
@@ -69,7 +69,7 @@ const Register = () => {
             id="lastName"
             name="lastName"
             placeholder="Your last name.."
-            value={lastName}
+            value={lastName.charAt(0).toUpperCase() + lastName.slice(1)}
             onChange={(e) => handleChange(e)}
           />
           <label htmlFor="email">Email</label>

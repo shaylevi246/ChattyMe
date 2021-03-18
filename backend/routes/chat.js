@@ -20,8 +20,9 @@ router.post("/chatroom", authenticateJWT, async (req, res) => {
     const newChatroom = new Chatroom({
       name: req.body.roomName,
       user: req.user.id,
+      participants: req.body.checked,
     });
-
+    newChatroom.participants.push(user);
     const chatroom = await newChatroom.save();
     res.json(chatroom);
   } catch (err) {
@@ -31,16 +32,28 @@ router.post("/chatroom", authenticateJWT, async (req, res) => {
 });
 
 //route get "/chat/chatrooms"
-// get all chatrooms
+// get all chatrooms that user participate in
 //private
 
 router.get("/chatrooms", authenticateJWT, async (req, res) => {
   try {
     let chatrooms = await Chatroom.find({ user: req.user.id }).sort({
-      date: -1,
+      messages: -1,
     });
 
-    res.json(chatrooms);
+    let allRooms = await Chatroom.find({}).sort({ messages: -1 });
+    let participateIn = [];
+    allRooms.map((room) => {
+      room.participants.map((participant) => {
+        if (participant._id.toString() === req.user.id) {
+          participateIn.push(room);
+        }
+      });
+    });
+
+    // objs.sort((a, b) => a.last_nom.localeCompare(b.last_nom));
+
+    res.json(participateIn);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
@@ -78,6 +91,7 @@ router.post("/message/:id", authenticateJWT, async (req, res) => {
     };
 
     chatroom.messages.push(newMessage);
+    chatroom.lastMessage.text = newMessage.text;
     await chatroom.save();
     res.json(chatroom);
   } catch (err) {

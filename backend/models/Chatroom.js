@@ -10,11 +10,26 @@ const chatroomSchema = new mongoose.Schema({
     required: true,
     ref: "user",
   },
+  lastMessage: {
+    text: {
+      type: String,
+    },
+    date: {
+      type: Date,
+      default: Date.now,
+    },
+  },
   participants: [
     {
       user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "user",
+      },
+      firstName: {
+        type: String,
+      },
+      lastName: {
+        type: String,
       },
     },
   ],

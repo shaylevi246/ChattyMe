@@ -17,6 +17,7 @@ mongoose.connect(connection_url, {
 
 //init middleware
 app.use(express.json({ extended: false }));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.get("/", (req, res) => {
   return res.send("connected");

@@ -17,9 +17,23 @@
 .chatBodyHeaderInfo > h3 {
   margin: 3px;
 }
-.chatBodyHeaderInfo > p {
-  margin: 3px;
+.participantList {
+  display: flex;
+  text-align: left;
+  width: fit-content;
+  align-items: center;
+}
+.participantList > p {
+  display: block;
+  margin-block-start: 3px;
+  margin-block-end: 3px;
+  margin-inline-start: 0px;
+  margin-inline-end: 10px;
+
   color: gray;
+}
+.participantList > p::after {
+  content: ",";
 }
 .chatBodyHeaderRight {
   display: flex;
@@ -29,7 +43,7 @@
 .chatBodyMiddle {
   flex: 1;
   background-color: lightgrey;
-  overflow: auto;
+  overflow-y: scroll;
   padding: 30px;
 }
 .chatMessage {

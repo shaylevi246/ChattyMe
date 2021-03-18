@@ -49,5 +49,26 @@
 }
 .sidebarChatRooms {
   flex: 1;
-  overflow: auto;
+  overflow-y: scroll;
+}
+.drawer > .MuiDrawer-paper {
+  width: 35vw;
+  align-items: center;
+  flex: 1;
+  background-color: cornflowerblue;
+}
+.drawer > .MuiDrawer-paper > input {
+  width: 90%;
+  margin: 20px;
+}
+.participantTitle {
+  width: 90%;
+  text-align: center;
+  border-bottom: 1px solid black;
+}
+.avatarInput {
+  position: absolute;
+  opacity: 0;
+  height: 50px;
+  width: 50px;
 }
