@@ -162,7 +162,6 @@ router.post(
       const user = await User.findById(req.user.id).select("-password");
       // const avatar = req.file.filename;
       const { path: avatar } = req.file;
-      console.log(req.file);
       user.avatar = avatar.replace(/\\/g, "/");
       await user.save();
       res.json(user);

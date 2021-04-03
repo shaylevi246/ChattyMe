@@ -9,6 +9,7 @@ const initialState = {
   chatroom: null,
   loading: true,
   change: localStorage.getItem("change"),
+  croppedImage: null,
 };
 
 const chatroomSlice = createSlice({
@@ -34,6 +35,9 @@ const chatroomSlice = createSlice({
       state.allUsers = action.payload;
       state.loading = false;
     },
+    setCroppedImage: (state, action) => {
+      state.croppedImage = action.payload;
+    },
   },
 });
 export default chatroomSlice.reducer;
@@ -45,6 +49,7 @@ const {
   createChatroom,
   loadChatroom,
   findAllUsers,
+  setCroppedImage,
 } = chatroomSlice.actions;
 
 export const getChatrooms = () => async (dispatch) => {
@@ -59,10 +64,15 @@ export const getChatrooms = () => async (dispatch) => {
   }
 };
 
-export const addChatroom = ({ roomName, checked }) => async (dispatch) => {
-  const body = JSON.stringify({ roomName, checked });
+// export const addChatroom = ({ roomName, checked }, formData) => async (
+//   dispatch
+// ) => {
+export const addChatroom = (formData) => async (dispatch) => {
+  // const body = JSON.stringify({ roomName, checked });
   try {
-    const res = await api.post("/chat/chatroom", body);
+    // const res = await api.post("/chat/chatroom", body, formData);
+    const res = await api.post("/chat/chatroom", formData);
+
     dispatch(createChatroom(res.data));
     localStorage.setItem("change", true);
   } catch (err) {
@@ -110,4 +120,8 @@ export const getAllUsers = () => async (dispatch) => {
       errors.forEach((error) => toast.error(error.msg));
     }
   }
+};
+
+export const sendCroppedImg = (img) => (dispatch) => {
+  dispatch(setCroppedImage(img));
 };

@@ -54,7 +54,11 @@ const ChatBody = () => {
     <Fragment>
       <div className="chatBody">
         <div className="chatBodyHeader">
-          <Avatar />
+          {chatroom && chatroom.avatar ? (
+            <Avatar src={chatroom.avatar} />
+          ) : (
+            <Avatar />
+          )}
           <div className="chatBodyHeaderInfo">
             <h3>
               {chatroom ? chatroom.name : "Please choose or create a chatroom"}

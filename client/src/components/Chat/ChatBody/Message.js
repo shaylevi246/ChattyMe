@@ -47,7 +47,9 @@ const Message = ({
             {messageUserFirstName + " " + messageUserLastName}
           </span>
           {message}
-          <span className="chatBodyMiddleTimeStamp">{messageTime}</span>
+          <span className="chatBodyMiddleTimeStamp">
+            <Moment format="DD/MM/YYYY - hh:mm">{messageTime}</Moment>{" "}
+          </span>
         </p>
       )}
     </div>

@@ -5,7 +5,7 @@ import { Fragment } from "react";
 import { findChatroomById } from "../chatSlicer";
 import { useDispatch } from "react-redux";
 
-const SidebarChat = ({ name, id, lastMessage }) => {
+const SidebarChat = ({ name, id, lastMessage, avatar }) => {
   const dispatch = useDispatch();
   const handleClick = (e) => {
     dispatch(findChatroomById(id));
@@ -17,7 +17,7 @@ const SidebarChat = ({ name, id, lastMessage }) => {
           <input type="radio" name="radio" />
           <span className="checkmark"></span>
           <div className="roomContant"> */}
-        <Avatar />
+        {avatar ? <Avatar src={avatar} /> : <Avatar />}
         <div className="sidebarChatInfo">
           <h3>{name}</h3>
           <p>{lastMessage ? lastMessage.text : "last message..."}</p>

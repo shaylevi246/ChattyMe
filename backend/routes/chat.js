@@ -4,32 +4,38 @@ const { body, validationResult } = require("express-validator");
 const User = require("../models/User");
 const Chatroom = require("../models/Chatroom");
 const authenticateJWT = require("../middleware/authenticateJWT");
+const upload = require("../middleware/upload");
 
 // route  post "/chat/chatroom"
 // create chatroom
 // private
 
-router.post("/chatroom", authenticateJWT, async (req, res) => {
-  // const errors = validationResult(req),
-  // if(!errors.isEmpty()){
-  //     return res.status(400).json({errors: errors.array()})
-  // };
-  try {
-    const user = await User.findById(req.user.id).select("-password");
-    // console.log(req.body);
-    const newChatroom = new Chatroom({
-      name: req.body.roomName,
-      user: req.user.id,
-      participants: req.body.checked,
-    });
-    newChatroom.participants.push(user);
-    const chatroom = await newChatroom.save();
-    res.json(chatroom);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
+router.post(
+  "/chatroom",
+  authenticateJWT,
+  upload.single("avatar"),
+  async (req, res) => {
+    try {
+      const user = await User.findById(req.user.id).select("-password");
+
+      const { path: avatar } = req.file;
+
+      const newChatroom = new Chatroom({
+        name: JSON.parse(req.body.roomName),
+        user: req.user.id,
+        avatar: avatar.replace(/\\/g, "/"),
+        participants: JSON.parse(req.body.checked),
+      });
+
+      newChatroom.participants.push(user);
+      const chatroom = await newChatroom.save();
+      res.json(chatroom);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
   }
-});
+);
 
 //route get "/chat/chatrooms"
 // get all chatrooms that user participate in
@@ -37,9 +43,9 @@ router.post("/chatroom", authenticateJWT, async (req, res) => {
 
 router.get("/chatrooms", authenticateJWT, async (req, res) => {
   try {
-    let chatrooms = await Chatroom.find({ user: req.user.id }).sort({
-      messages: -1,
-    });
+    // let chatrooms = await Chatroom.find({ user: req.user.id }).sort({
+    //   messages: -1,
+    // });
 
     let allRooms = await Chatroom.find({}).sort({ messages: -1 });
     let participateIn = [];

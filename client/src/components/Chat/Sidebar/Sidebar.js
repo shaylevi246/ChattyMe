@@ -13,12 +13,30 @@ import {
   getAllUsers,
 } from "../chatSlicer";
 import { useDispatch, useSelector } from "react-redux";
+import CropperImg from "../ImageCropper/CropperImg";
+import CancelIcon from "@material-ui/icons/Cancel";
+import Modal from "react-modal";
 import { Fragment } from "react";
 import { addAvatar, loadUser, loginSelector } from "../../Auth/loginSlicer";
 import SideMenu from "../SideMenu/SideMenu";
 import _ from "lodash";
 
+const customStyles = {
+  content: {
+    zIndex: 1500,
+    width: "40vw",
+    height: "80vh",
+    backgroundColor: "white",
+    margin: "40px auto",
+    border: "2px solid black",
+  },
+};
+
+Modal.setAppElement("#root");
+
 function Sidebar() {
+  const from = "userAvatar";
+  const [modalIsOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
     if (localStorage.getItem("token") !== null) {
@@ -48,41 +66,43 @@ function Sidebar() {
     }
   }, [getChatrooms]);
 
-  const handleAvatar = (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("avatar", e.target.files[0]);
-    dispatch(addAvatar(formData));
+  const openModal = () => {
+    setIsOpen(true);
+  };
+  const closeModal = () => {
+    setIsOpen(false);
   };
 
   return (
     <Fragment>
+      <Modal
+        className="modal"
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        shouldCloseOnOverlayClick={false}
+        style={customStyles}
+      >
+        <IconButton onClick={closeModal} color="primary">
+          <CancelIcon />
+        </IconButton>
+        <CropperImg modal={(modalDoor) => setIsOpen(modalDoor)} from={from} />
+      </Modal>
       <div>
         <Drawer
           className="drawer"
+          style={{ zIndex: "500 !important" }}
           anchor={"left"}
           open={state}
-          onClose={toggleDrawer(false)}
         >
           <SideMenu drawer={(door) => setState(door)} />
         </Drawer>
       </div>
       <div className="sidebar">
         <div className="sidebarHeader">
-          <IconButton>
-            <span>
-              {user !== null ? <Avatar src={`${user.avatar}`} /> : <Avatar />}
-            </span>
-            <input
-              id="avatarInput"
-              className="avatarInput"
-              onChange={(e) => handleAvatar(e)}
-              name="avatarPhoto"
-              type="file"
-              accept=".png, .jpg, .jpeg"
-              encType="multipart/form-data"
-            />
-          </IconButton>
+          {/* <IconButton> */}
+          <span onClick={openModal} className="avatarInput">
+            {user !== null ? <Avatar src={`${user.avatar}`} /> : <Avatar />}
+          </span>
 
           <div className="sidebarHeaderRight">
             <IconButton>
@@ -117,6 +137,7 @@ function Sidebar() {
                 id={room._id}
                 name={room.name}
                 lastMessage={room.lastMessage}
+                avatar={room.avatar}
               />
             ))}
         </div>

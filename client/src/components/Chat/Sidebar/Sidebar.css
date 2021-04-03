@@ -63,12 +63,61 @@
 }
 .participantTitle {
   width: 90%;
-  text-align: center;
+  display: flex;
+  align-items: center;
   border-bottom: 1px solid black;
+  border-top: 1px solid black;
 }
+.participantTitle > .backButton {
+  margin-right: 20px;
+}
+
 .avatarInput {
-  position: absolute;
-  opacity: 0;
-  height: 50px;
-  width: 50px;
+  position: relative;
+  margin-left: 10px;
+  margin-top: 5px;
+}
+.addingGroupAvatar {
+  display: flex;
+  border-top: 1px solid black;
+  margin-top: 20px;
+  width: 90%;
+  align-items: center;
+  text-align: center;
+  padding: 20px 0;
+  justify-content: space-between;
+}
+.createRoomButton,
+.addGroupIconButton {
+  background-color: lightgreen;
+  border: none;
+  border-radius: 10px;
+  width: 200px;
+  padding: 10px;
+  font-weight: 600;
+}
+.createRoomButton,
+.addGroupIconButton :hover {
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 1200px) {
+  .drawer > .MuiDrawer-paper {
+    width: 40vw;
+  }
+}
+@media only screen and (max-width: 1000px) {
+  .drawer > .MuiDrawer-paper {
+    width: 60vw;
+  }
+}
+@media only screen and (max-width: 800px) {
+  .drawer > .MuiDrawer-paper {
+    width: 90vw;
+  }
+}
+@media only screen and (max-width: 650px) {
+  .drawer > .MuiDrawer-paper {
+    width: 100vw;
+  }
 }

@@ -10,33 +10,6 @@
   background-color: lightgray;
 }
 
-/* Hide the browser's default radio button
-.sidebarChat input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-}
-.roomContant {
-  position: relative;
-  flex: 0.34;
-  align-items: center;
-  padding: 10px;
-}
-
-/* Create a custom radio button */
-/* .checkmark {
-  position: relative;
-  padding: 10px;
-  top: 0;
-  left: 0;
-  height: 60px;
-  width: 100%;
-} */
-
-/* When the radio button is checked, add a blue background */
-/* .sidebarChat input:checked ~ .checkmark {
-  background-color: gray;
-} */
 .sidebarChatInfo {
   position: relative;
   margin-left: 20px;
@@ -59,12 +32,4 @@
 }
 .MuiList-root > .MuiListItem-dense:hover {
   background-color: lightgray;
-}
-.createRoomButton {
-  background-color: lightgreen;
-  border: none;
-  border-radius: 10px;
-  width: 200px;
-  padding: 10px;
-  font-weight: 600;
 }

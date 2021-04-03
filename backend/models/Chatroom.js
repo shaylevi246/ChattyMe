@@ -10,6 +10,9 @@ const chatroomSchema = new mongoose.Schema({
     required: true,
     ref: "user",
   },
+  avatar: {
+    type: String,
+  },
   lastMessage: {
     text: {
       type: String,
