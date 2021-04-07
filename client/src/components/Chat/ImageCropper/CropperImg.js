@@ -1,5 +1,5 @@
 import React, { useState, useCallback, Fragment } from "react";
-import ReactDOM from "react-dom";
+
 import Cropper from "react-easy-crop";
 import Slider from "@material-ui/core/Slider";
 import Button from "@material-ui/core/Button";
@@ -50,7 +50,7 @@ const CropperImg = (props) => {
     } catch (e) {
       console.error(e);
     }
-  }, [imageSrc, croppedAreaPixels]);
+  }, [imageSrc, croppedAreaPixels, dispatch, modalDoor, props]);
 
   const onFileChange = async (e) => {
     if (e.target.files && e.target.files.length > 0) {

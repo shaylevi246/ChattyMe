@@ -51,6 +51,12 @@ const chatroomSchema = new mongoose.Schema({
       text: {
         type: String,
       },
+      image: {
+        type: String,
+      },
+      messageDate: {
+        type: String,
+      },
       date: {
         type: Date,
         default: Date.now,

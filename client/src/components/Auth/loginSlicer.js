@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import api from "../../api/index";
-import axios from "axios";
-import { ToastContainer, toast, Zoom, Bounce } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 toast.configure();
 
@@ -24,7 +23,7 @@ const loginSlice = createSlice({
     },
     loginFail: (state, action) => {
       state.isAuth = false;
-      state.isLoading = false;
+      state.isLoading = true;
       state.user = null;
       state.token = localStorage.removeItem("token");
     },
@@ -82,4 +81,7 @@ export const addAvatar = (formData) => async (dispatch) => {
       errors.forEach((error) => toast.error(error.msg));
     }
   }
+};
+export const logout = () => async (dispatch) => {
+  dispatch(loginFail());
 };

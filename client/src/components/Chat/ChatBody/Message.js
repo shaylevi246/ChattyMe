@@ -1,5 +1,5 @@
-import React, { useRef, useEffect } from "react";
-import "./ChatBody.css";
+import React, { useEffect } from "react";
+import "./Message.css";
 import { loadUser, loginSelector } from "../../Auth/loginSlicer";
 import { useDispatch, useSelector } from "react-redux";
 import Moment from "react-moment";
@@ -9,48 +9,67 @@ const Message = ({
   messageUserFirstName,
   messageUserLastName,
   messageTime,
-  message,
+  messageText,
+  messageImage,
 }) => {
   const dispatch = useDispatch();
   const { user } = useSelector(loginSelector);
-  //   const messageRef = useRef();
-
-  //   useEffect(() => {
-  //     if (messageRef.current) {
-  //       messageRef.current.scrollIntoView({
-  //         behavior: "smooth",
-  //         block: "end",
-  //         inline: "nearest",
-  //       });
-  //     }
-  //   });
   useEffect(() => {
-    if (localStorage.getItem("token") !== null) {
-      dispatch(loadUser());
+    if (user === null) {
+      if (localStorage.getItem("token") !== null) {
+        dispatch(loadUser());
+      }
     }
-  }, [loadUser]);
+  }, [dispatch, user]);
   return (
     <div>
+      <div style={{ marginBottom: "30px" }}>
+        <span className="chatBodyMiddleTimeStamp">
+          <Moment format="DD/MM/YYYY">{messageTime}</Moment>{" "}
+        </span>
+      </div>
       {messageUserId === user._id ? (
-        <p className="chatMessage sender">
+        <div className="chatMessage sender">
           <span className="chatMessageName">
             {messageUserFirstName + " " + messageUserLastName}
           </span>
-          {message}
-          <span className="chatBodyMiddleTimeStamp">
-            <Moment format="DD/MM/YYYY - hh:mm">{messageTime}</Moment>{" "}
-          </span>
-        </p>
+          {messageText ? (
+            <div>
+              {messageText}
+              <span className="chatBodyMiddleTimeStamp">
+                <Moment format="hh:mm">{messageTime}</Moment>{" "}
+              </span>
+            </div>
+          ) : (
+            <div className="imageMessage">
+              <img className="imageContainer" src={messageImage} alt="" />
+              <span className="timeStamp">
+                <Moment format="hh:mm">{messageTime}</Moment>{" "}
+              </span>
+            </div>
+          )}
+        </div>
       ) : (
-        <p className="chatMessage">
+        <div className="chatMessage">
           <span className="chatMessageName">
             {messageUserFirstName + " " + messageUserLastName}
           </span>
-          {message}
-          <span className="chatBodyMiddleTimeStamp">
-            <Moment format="DD/MM/YYYY - hh:mm">{messageTime}</Moment>{" "}
-          </span>
-        </p>
+          {messageText ? (
+            <div>
+              {messageText}
+              <span className="chatBodyMiddleTimeStamp">
+                <Moment format="hh:mm">{messageTime}</Moment>{" "}
+              </span>
+            </div>
+          ) : (
+            <div className="imageMessage">
+              <img className="imageContainer" src={messageImage} alt="" />
+              <span className="timeStamp">
+                <Moment format="hh:mm">{messageTime}</Moment>{" "}
+              </span>
+            </div>
+          )}
+        </div>
       )}
     </div>
   );

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import api from "../../api/index";
-import { ToastContainer, toast, Zoom, Bounce } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 toast.configure();
 const initialState = {
@@ -64,14 +64,24 @@ export const getChatrooms = () => async (dispatch) => {
   }
 };
 
-// export const addChatroom = ({ roomName, checked }, formData) => async (
-//   dispatch
-// ) => {
-export const addChatroom = (formData) => async (dispatch) => {
-  // const body = JSON.stringify({ roomName, checked });
+export const addChatroomWithImage = (formData) => async (dispatch) => {
   try {
-    // const res = await api.post("/chat/chatroom", body, formData);
-    const res = await api.post("/chat/chatroom", formData);
+    const res = await api.post("/chat/chatroom/avatar", formData);
+
+    dispatch(createChatroom(res.data));
+    localStorage.setItem("change", true);
+  } catch (err) {
+    console.log(err.msg);
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach((error) => toast.error(error.msg));
+    }
+  }
+};
+export const addChatroom = ({ roomName, checked }) => async (dispatch) => {
+  const body = JSON.stringify({ roomName, checked });
+  try {
+    const res = await api.post("/chat/chatroom", body);
 
     dispatch(createChatroom(res.data));
     localStorage.setItem("change", true);
@@ -100,6 +110,18 @@ export const addMessage = ({ chatroom, text }) => async (dispatch) => {
   const body = JSON.stringify({ text });
   try {
     const res = await api.post(`/chat/message/${chatroom._id}`, body);
+    dispatch(loadChatroom(res.data));
+    localStorage.setItem("change", true);
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach((error) => toast.error(error.msg));
+    }
+  }
+};
+export const addImageMessage = (chatroom, formData) => async (dispatch) => {
+  try {
+    const res = await api.post(`/chat/image/${chatroom._id}`, formData);
     dispatch(loadChatroom(res.data));
     localStorage.setItem("change", true);
   } catch (err) {

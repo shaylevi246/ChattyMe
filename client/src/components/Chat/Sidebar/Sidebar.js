@@ -4,22 +4,19 @@ import DonutLargeIcon from "@material-ui/icons/DonutLarge";
 import ChatIcon from "@material-ui/icons/Chat";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import SearchIcon from "@material-ui/icons/Search";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
 import "./Sidebar.css";
 import SidebarChat from "./SidebarChat";
-import {
-  getChatrooms,
-  addChatroom,
-  chatRoomsSelector,
-  getAllUsers,
-} from "../chatSlicer";
+import { getChatrooms, chatRoomsSelector } from "../chatSlicer";
 import { useDispatch, useSelector } from "react-redux";
 import CropperImg from "../ImageCropper/CropperImg";
 import CancelIcon from "@material-ui/icons/Cancel";
 import Modal from "react-modal";
 import { Fragment } from "react";
-import { addAvatar, loadUser, loginSelector } from "../../Auth/loginSlicer";
+import { loadUser, loginSelector, logout } from "../../Auth/loginSlicer";
 import SideMenu from "../SideMenu/SideMenu";
-import _ from "lodash";
+import { Link } from "react-router-dom";
 
 const customStyles = {
   content: {
@@ -36,13 +33,17 @@ Modal.setAppElement("#root");
 
 function Sidebar() {
   const from = "userAvatar";
+  let { user } = useSelector(loginSelector);
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
   const dispatch = useDispatch();
   useEffect(() => {
-    if (localStorage.getItem("token") !== null) {
-      dispatch(loadUser());
+    if (user === null) {
+      if (localStorage.getItem("token") !== null) {
+        dispatch(loadUser());
+      }
     }
-  }, [loadUser]);
+  }, [dispatch, user]);
   const [state, setState] = useState(false);
 
   const toggleDrawer = (open) => (e) => {
@@ -50,27 +51,24 @@ function Sidebar() {
   };
 
   let { chatrooms } = useSelector(chatRoomsSelector);
-  let { user } = useSelector(loginSelector);
-
-  // const myOrderedArray = [...chatrooms].sort(
-  //   (a, b) =>
-  //     new Date(a.lastMessage.date).valueOf() >
-  //     new Date(b.lastMessage.date).valueOf()
-  // );
-
-  // console.log(myOrderedArray);
 
   useEffect(() => {
     if (localStorage.getItem("change") !== false) {
       dispatch(getChatrooms());
     }
-  }, [getChatrooms]);
+  }, [dispatch]);
 
   const openModal = () => {
     setIsOpen(true);
   };
   const closeModal = () => {
     setIsOpen(false);
+  };
+  const openMenu = (e) => {
+    setAnchorEl(e.currentTarget);
+  };
+  const closeMenu = () => {
+    setAnchorEl(null);
   };
 
   return (
@@ -111,9 +109,35 @@ function Sidebar() {
             <IconButton onClick={toggleDrawer(true)}>
               <ChatIcon />
             </IconButton>
-            <IconButton>
+            <IconButton onClick={(e) => openMenu(e)} aria-controls="userMenu">
               <MoreVertIcon />
             </IconButton>
+            <Menu
+              id="userMenu"
+              style={{ margin: "10px 0 0 20px" }}
+              open={Boolean(anchorEl)}
+              onClose={closeMenu}
+              anchorEl={anchorEl}
+              getContentAnchorEl={null}
+              anchorOrigin={{
+                vertical: "center",
+                horizontal: "left",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+            >
+              <MenuItem
+                onClick={() => {
+                  dispatch(logout());
+                  closeMenu();
+                  <Link to="/login"></Link>;
+                }}
+              >
+                Log out
+              </MenuItem>
+            </Menu>
           </div>
         </div>
         <div className="sidebarSearch">

@@ -10,6 +10,7 @@ import CancelIcon from "@material-ui/icons/Cancel";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addChatroom,
+  addChatroomWithImage,
   chatRoomsSelector,
   getAllUsers,
   sendCroppedImg,
@@ -18,7 +19,7 @@ import "../Sidebar/Sidebar.css";
 import { Fragment } from "react";
 import Modal from "react-modal";
 
-import { ToastContainer, toast, Zoom, Bounce } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { loginSelector } from "../../Auth/loginSlicer";
 import CropperImg from "../ImageCropper/CropperImg";
@@ -42,19 +43,16 @@ const SideMenu = (props) => {
   const from = "chatroom";
   const dispatch = useDispatch();
   const { user } = useSelector(loginSelector);
-  const { allUsers, chatrooms, chatroom, croppedImage } = useSelector(
-    chatRoomsSelector
-  );
+  const { allUsers, chatrooms, croppedImage } = useSelector(chatRoomsSelector);
   useEffect(() => {
     dispatch(getAllUsers());
-  }, [getAllUsers]);
+  }, [dispatch]);
   const allUsersButMe = allUsers.filter((me) => me._id !== user._id);
 
   const [modalIsOpen, setIsOpen] = useState(false);
   const [checked, setChecked] = useState([]);
   const [roomName, setRoomName] = useState("");
   const [groupImage, setGroupImage] = useState(null);
-  const formData = new FormData();
   useEffect(() => {
     if (croppedImage !== null) {
       setGroupImage(croppedImage);
@@ -79,7 +77,9 @@ const SideMenu = (props) => {
   const handleClick = () => {
     chatrooms.map((room) => {
       if (room.name === roomName) {
-        roomNameExists = true;
+        return (roomNameExists = true);
+      } else {
+        return null;
       }
     });
     if (!roomName || checked.length === 0 || roomNameExists === true) {
@@ -91,17 +91,25 @@ const SideMenu = (props) => {
         toast.error("Sorry, the name for this room is already in use");
       }
     } else {
-      const convertedUrlToFile = dataURLtoFile(groupImage, "croppedImage.jpeg");
+      if (groupImage) {
+        const convertedUrlToFile = dataURLtoFile(
+          groupImage,
+          "croppedImage.jpeg"
+        );
 
-      const formData = new FormData();
-      formData.append("avatar", convertedUrlToFile);
-      formData.append("roomName", JSON.stringify(roomName));
-      formData.append("checked", JSON.stringify(checked));
+        const formData = new FormData();
+        formData.append("avatar", convertedUrlToFile);
+        formData.append("roomName", JSON.stringify(roomName));
+        formData.append("checked", JSON.stringify(checked));
 
-      dispatch(addChatroom(formData));
+        dispatch(addChatroomWithImage(formData));
+        dispatch(sendCroppedImg(null));
+      } else {
+        dispatch(addChatroom({ roomName, checked }));
+      }
+
       setChecked([]);
       setRoomName("");
-      dispatch(sendCroppedImg(null));
       setGroupImage(null);
       roomNameExists = false;
     }

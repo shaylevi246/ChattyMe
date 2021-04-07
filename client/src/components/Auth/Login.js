@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, Redirect } from "react-router-dom";
 import "./auth.css";
 import { useDispatch, useSelector } from "react-redux";
 import { login, loginSelector } from "./loginSlicer";
@@ -7,9 +7,7 @@ import { Fragment } from "react";
 
 const Login = () => {
   const dispatch = useDispatch();
-  const { isAuth, isLoading, user } = useSelector(loginSelector);
-
-  const history = useHistory();
+  const { isAuth } = useSelector(loginSelector);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -29,14 +27,7 @@ const Login = () => {
     e.preventDefault();
     dispatch(login({ email, password }));
   };
-  // useEffect(() => {
-  //   if (isAuth) {
-  //     history.push("/");
-  //   }
-  // }, [isAuth, history]);
   if (isAuth) {
-    // let currentUser = JSON.parse(user);
-    // console.log(currentUser.firstName);
     return <Redirect to="/" />;
   }
   return (

@@ -1,0 +1,42 @@
+.chatMessage {
+  position: relative;
+  background-color: white;
+  border-radius: 10px;
+  font-size: 16px;
+  padding: 10px;
+  padding-bottom: 20px;
+  width: fit-content;
+  min-width: 90px;
+  margin-bottom: 30px;
+}
+.chatMessageName {
+  position: absolute;
+  top: -25px;
+  font-weight: 600;
+}
+.sender {
+  background-color: lightgreen;
+  margin-left: auto;
+}
+.chatBodyMiddleTimeStamp {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  font-size: 10px;
+  color: gray;
+}
+.imageMessage {
+  position: relative;
+}
+.imageContainer {
+  max-width: 300px;
+  max-height: 300px;
+  height: auto;
+  width: auto;
+}
+.timeStamp {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  color: white;
+}

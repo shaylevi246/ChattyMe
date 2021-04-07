@@ -46,29 +46,7 @@
   overflow-y: scroll;
   padding: 30px;
 }
-.chatMessage {
-  position: relative;
-  background-color: white;
-  border-radius: 10px;
-  font-size: 16px;
-  padding: 10px;
-  width: fit-content;
-  margin-bottom: 30px;
-}
-.chatMessageName {
-  position: absolute;
-  top: -25px;
-  font-weight: 600;
-}
-.sender {
-  background-color: lightgreen;
-  margin-left: auto;
-}
-.chatBodyMiddleTimeStamp {
-  margin-left: 10px;
-  font-size: 10px;
-  color: gray;
-}
+
 .chatBodyFooter {
   display: flex;
   align-items: center;
@@ -87,4 +65,19 @@
 }
 .chatBodyFooter > form > button {
   display: none;
+}
+.chatBodyFooterLeft {
+  display: flex;
+}
+.dateContainer {
+  position: relative;
+  background-color: rgb(176, 219, 245);
+  border-radius: 10px;
+  color: rgb(134, 140, 145);
+  font-size: 16px;
+  padding: 3px 5px;
+  width: fit-content;
+  min-width: 80px;
+  text-align: center;
+  margin: 0 auto 30px auto;
 }
