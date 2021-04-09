@@ -20,7 +20,7 @@ export async function getCroppedImg(imageSrc, pixelCrop) {
   canvas.width = safeArea;
   canvas.height = safeArea;
 
-  // draw rotated image and store data.
+  // draw image and store data.
   ctx.drawImage(
     image,
     safeArea / 2 - image.width * 0.5,

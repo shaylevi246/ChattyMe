@@ -13,17 +13,11 @@ const SidebarChat = ({ name, id, lastMessage, avatar }) => {
   return (
     <Fragment>
       <div className="sidebarChat" onClick={(e) => handleClick(e)}>
-        {/* <label className="sidebarChat">
-          <input type="radio" name="radio" />
-          <span className="checkmark"></span>
-          <div className="roomContant"> */}
         {avatar ? <Avatar src={avatar} /> : <Avatar />}
         <div className="sidebarChatInfo">
           <h3>{name}</h3>
           <p>{lastMessage ? lastMessage.text : "last message..."}</p>
         </div>
-        {/* </div>
-        </label> */}
       </div>
     </Fragment>
   );

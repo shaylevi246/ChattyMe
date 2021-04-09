@@ -28,6 +28,9 @@
 .imageMessage {
   position: relative;
 }
+.imageMessage:hover {
+  cursor: pointer;
+}
 .imageContainer {
   max-width: 300px;
   max-height: 300px;
@@ -39,4 +42,11 @@
   bottom: 5px;
   right: 5px;
   color: white;
+}
+.displayImage {
+  max-width: 90%;
+  max-height: 80%;
+  height: auto;
+  width: auto;
+  margin-bottom: 10px;
 }
